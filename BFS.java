@@ -1,6 +1,90 @@
+// import java.util.*;
+
+// public class BFS {
+//   static class Edge {
+//     int src;
+//     int dest;
+//     int weight;
+
+//     public Edge(int s, int d, int w) {
+//       this.src = s;
+//       this.dest = d;
+//       this.weight = w;
+//     }
+//   }
+
+//   public static void main(String[] args) {
+//     System.out.println("BFS Implementation");
+
+//     /*
+//      * 6
+//      * |
+//      * 5
+//      * / \
+//      * 3---4
+//      * | |
+//      * 1 2
+//      * \ /
+//      * 0
+//      *
+//      * q=[0,1,2,3,4,5,6]
+//      */
+
+//     int V = 7;
+//     ArrayList<Edge>[] graph = new ArrayList[V];
+//     for (int i = 0; i < V; i++) {
+//       graph[i] = new ArrayList<>();
+//     }
+
+//     graph[0].add(new Edge(0, 1, 1));
+//     graph[0].add(new Edge(0, 2, 1));
+
+//     graph[1].add(new Edge(1, 0, 1));
+//     graph[1].add(new Edge(1, 3, 1));
+
+//     graph[2].add(new Edge(2, 0, 1));
+//     graph[2].add(new Edge(2, 4, 1));
+
+//     graph[3].add(new Edge(3, 1, 1));
+//     graph[3].add(new Edge(3, 4, 1));
+//     graph[3].add(new Edge(3, 5, 1));
+
+//     graph[4].add(new Edge(4, 2, 1));
+//     graph[4].add(new Edge(4, 3, 1));
+//     graph[4].add(new Edge(4, 5, 1));
+
+//     graph[5].add(new Edge(5, 3, 1));
+//     graph[5].add(new Edge(5, 4, 1));
+//     graph[5].add(new Edge(5, 6, 1));
+
+//     graph[6].add(new Edge(6, 5, 1));
+
+//     // BFS Implementation
+
+//     Queue<Integer> q = new LinkedList<>();
+//     boolean[] vis = new boolean[V];
+
+//     q.add(0); // source
+
+//     while (!q.isEmpty()) {
+//       int curr = q.remove();
+
+//       if (vis[curr] == false) {
+//         System.out.println(curr);
+//         vis[curr] = true;
+
+//         for (int i = 0; i < graph[curr].size(); i++) {
+//           Edge e = graph[curr].get(i);
+//           q.add(e.dest);
+//         }
+//       }
+//     }
+//   }
+// }
 import java.util.*;
 
 public class BFS {
+
   static class Edge {
     int src;
     int dest;
@@ -13,101 +97,58 @@ public class BFS {
     }
   }
 
-  public static void main(String[] args) {
-    System.out.println("BFS Implementation");
-
-    /*
-     * 6
-     * |
-     * 5
-     * / \
-     * 3---4
-     * | |
-     * 1 2
-     * \ /
-     * 0
-     *
-     * q=[0,1,2,3,4,5,6]
-     */
-
-    int V = 7;
-    ArrayList<Edge>[] graph = new ArrayList[V];
-    for (int i = 0; i < V; i++) {
-      graph[i] = new ArrayList<>();
-    }
-
-    graph[0].add(new Edge(0, 1, 1));
-    graph[0].add(new Edge(0, 2, 1));
-
-    graph[1].add(new Edge(1, 0, 1));
-    graph[1].add(new Edge(1, 3, 1));
-
-    graph[2].add(new Edge(2, 0, 1));
-    graph[2].add(new Edge(2, 4, 1));
-
-    graph[3].add(new Edge(3, 1, 1));
-    graph[3].add(new Edge(3, 4, 1));
-    graph[3].add(new Edge(3, 5, 1));
-
-    graph[4].add(new Edge(4, 2, 1));
-    graph[4].add(new Edge(4, 3, 1));
-    graph[4].add(new Edge(4, 5, 1));
-
-    graph[5].add(new Edge(5, 3, 1));
-    graph[5].add(new Edge(5, 4, 1));
-    graph[5].add(new Edge(5, 6, 1));
-
-    graph[6].add(new Edge(6, 5, 1));
-
-    // BFS Implementation
-
+  // BFS LOGIC (UNIT TEST ISKO KAREGA)
+  public static List<Integer> bfsTraversal(ArrayList<Edge>[] graph, int src) {
+    boolean[] vis = new boolean[graph.length];
     Queue<Integer> q = new LinkedList<>();
-    boolean[] vis = new boolean[V];
+    List<Integer> result = new ArrayList<>();
 
-    q.add(0); // source
+    q.add(src);
 
     while (!q.isEmpty()) {
       int curr = q.remove();
 
-      if (vis[curr] == false) {
-        System.out.println(curr);
+      if (!vis[curr]) {
         vis[curr] = true;
+        result.add(curr);
 
-        for (int i = 0; i < graph[curr].size(); i++) {
-          Edge e = graph[curr].get(i);
+        for (Edge e : graph[curr]) {
           q.add(e.dest);
         }
       }
     }
+    return result;
+  }
+
+  // Graph builder (reuse in test)
+  public static ArrayList<Edge>[] createGraph() {
+    int V = 7;
+    ArrayList<Edge>[] graph = new ArrayList[V];
+    for (int i = 0; i < V; i++)
+      graph[i] = new ArrayList<>();
+
+    graph[0].add(new Edge(0, 1, 1));
+    graph[0].add(new Edge(0, 2, 1));
+    graph[1].add(new Edge(1, 0, 1));
+    graph[1].add(new Edge(1, 3, 1));
+    graph[2].add(new Edge(2, 0, 1));
+    graph[2].add(new Edge(2, 4, 1));
+    graph[3].add(new Edge(3, 1, 1));
+    graph[3].add(new Edge(3, 4, 1));
+    graph[3].add(new Edge(3, 5, 1));
+    graph[4].add(new Edge(4, 2, 1));
+    graph[4].add(new Edge(4, 3, 1));
+    graph[4].add(new Edge(4, 5, 1));
+    graph[5].add(new Edge(5, 3, 1));
+    graph[5].add(new Edge(5, 4, 1));
+    graph[5].add(new Edge(5, 6, 1));
+    graph[6].add(new Edge(6, 5, 1));
+
+    return graph;
+  }
+
+  public static void main(String[] args) {
+    ArrayList<Edge>[] graph = createGraph();
+    System.out.println(bfsTraversal(graph, 0));
   }
 }
-
-// list[arrylist=[(x,x,x) ,(y,y,y)] , arraylist[] , arraylist , arraylist]
-
-// graph=[
-// [(0,1,5)],
-// [(1,0,5),(1,2,1),(1,3,3)],
-// [(2,1,1),(2,3,1),(2,4,2)],
-// [(3,1,3),(3,2,1)],
-// [(4,2,2)]
-// ]
-
-/*
- * 
- * Graph Structure:
- * 
- * 0
- * |
- * (5)
- * |
- * 1
- * / \
- * (1) (3)
- * / \
- * 2 --(1)-- 3
- * |
- * (2)
- * |
- * 4
- * 
- */

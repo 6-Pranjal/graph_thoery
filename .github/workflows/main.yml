@@ -19,6 +19,15 @@ jobs:
 
       - name: Run s simple command
         run: echo "github!"
-      
-      
-  
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: "temurin" # Popular JDK distribution
+          java-version: "18" # Use the version you need
+
+      - name: Compile Java code
+        run: javac -cp ".:junit.jar:hamcrest-core.jar" BFS.java BFSTest.java
+
+      - name: Run Unit Tests
+        run: java -cp ".:junit.jar:hamcrest-core.jar" org.junit.runner.JUnitCore BFSTest
